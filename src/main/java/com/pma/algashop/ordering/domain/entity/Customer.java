@@ -1,5 +1,6 @@
 package com.pma.algashop.ordering.domain.entity;
 
+import com.pma.algashop.ordering.domain.exceptions.CustomerArchivedException;
 import com.pma.algashop.ordering.domain.validator.FieldValidations;
 
 import java.time.LocalDate;
@@ -60,26 +61,39 @@ public class Customer {
     }
 
     public void archived() {
-
+        verifyIdChangeable();
+        this.setArchived(true);
+        this.setArchivedAt(OffsetDateTime.now());
+        this.setFullName("Anonymous");
+        this.setPhone("000-000-0000");
+        this.setDocument("000-000-0000");
+        this.setEmail(UUID.randomUUID() + "@anonymous.com");
+        this.setBirthDate(null);
+        this.setPromotionNotificationsAllowed(false);
     }
 
     public void enablePromotionNotifications() {
+        verifyIdChangeable();
         this.setPromotionNotificationsAllowed(true);
     }
 
     public void disablePromotionNotifications() {
+        verifyIdChangeable();
         this.setPromotionNotificationsAllowed(false);
     }
 
     public void changeName(String fullName) {
+        verifyIdChangeable();
         this.setFullName(fullName);
     }
 
     public void changeEmail(String email) {
+        verifyIdChangeable();
         this.setEmail(email);
     }
 
     public void changePhone(String phone) {
+        verifyIdChangeable();
         this.setPhone(phone);
     }
 
@@ -189,6 +203,12 @@ public class Customer {
     private void setLoyaltyPoints(Integer loyaltyPoints) {
         Objects.requireNonNull(loyaltyPoints);
         this.loyaltyPoints = loyaltyPoints;
+    }
+
+    private void verifyIdChangeable() {
+        if (this.isArchived()) {
+            throw new CustomerArchivedException();
+        }
     }
 
     @Override
