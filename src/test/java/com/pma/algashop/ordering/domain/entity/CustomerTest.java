@@ -1,29 +1,50 @@
 package com.pma.algashop.ordering.domain.entity;
 
 import com.pma.algashop.ordering.domain.utility.IdGenerator;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 class CustomerTest {
 
     @Test
-    void customerTest() {
+    void given_invalidEmail_whenTryCreateCustomer_shouldGenerateException() {
+
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> {
+                    Customer customer = new Customer(
+                            IdGenerator.generateTimeBasedUUID(),
+                            "John Doe",
+                            LocalDate.of(1991, 7, 5),
+                            "invalid-email",
+                            "478-555-6544",
+                            "255-55-3211",
+                            false,
+                            OffsetDateTime.now()
+                    );
+                });
+    }
+
+    @Test
+    void given_invalidEmail_whenTryUpdateCustomer_shouldGenerateException() {
+
         Customer customer = new Customer(
                 IdGenerator.generateTimeBasedUUID(),
-                "Jhon Doe",
+                "John Doe",
                 LocalDate.of(1991, 7, 5),
-                "jhon.doe@email.com",
-                "478-256-2504",
-                "225-08-0578",
-                true,
+                "john.doe@gmail.com",
+                "478-555-6544",
+                "255-55-3211",
+                false,
                 OffsetDateTime.now()
         );
 
-        System.out.println(customer.id());
-        System.out.println(IdGenerator.generateTimeBasedUUID());
+        Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> {
+                    customer.changeEmail("invalid-email");
+                });
     }
 
 }
