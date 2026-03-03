@@ -1,5 +1,6 @@
 package com.pma.algashop.ordering.domain.validator;
 
+import com.pma.algashop.ordering.domain.valueobject.Email;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.Objects;
