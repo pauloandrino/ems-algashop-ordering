@@ -1,12 +1,14 @@
 package com.pma.algashop.ordering.domain.entity;
 
 import com.pma.algashop.ordering.domain.exceptions.CustomerArchivedException;
+import com.pma.algashop.ordering.domain.valueobject.Address;
 import com.pma.algashop.ordering.domain.valueobject.CustomerId;
 import com.pma.algashop.ordering.domain.valueobject.Document;
 import com.pma.algashop.ordering.domain.valueobject.Email;
 import com.pma.algashop.ordering.domain.valueobject.FullName;
 import com.pma.algashop.ordering.domain.valueobject.LoyaltyPoints;
 import com.pma.algashop.ordering.domain.valueobject.Phone;
+import com.pma.algashop.ordering.domain.valueobject.ZipCode;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +32,16 @@ class CustomerTest {
                             new Phone("478-555-6544"),
                             new Document("255-55-3211"),
                             false,
-                            OffsetDateTime.now()
+                            OffsetDateTime.now(),
+                            Address.builder()
+                                    .street("Main St")
+                                    .number("12345")
+                                    .neighborhood("Downtown")
+                                    .city("Springfield")
+                                    .state("California")
+                                    .zipCode(ZipCode.builder().value("12345").build())
+                                    .complement("Apt 101")
+                                    .build()
                     );
                 });
     }
@@ -46,7 +57,16 @@ class CustomerTest {
                 new Phone("478-555-6544"),
                 new Document("255-55-3211"),
                 false,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                Address.builder()
+                        .street("Main St")
+                        .number("12345")
+                        .neighborhood("Downtown")
+                        .city("Springfield")
+                        .state("California")
+                        .zipCode(ZipCode.builder().value("12345").build())
+                        .complement("Apt 101")
+                        .build()
         );
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
@@ -66,7 +86,16 @@ class CustomerTest {
                 new Phone("478-555-6544"),
                 new Document("255-55-3211"),
                 false,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                Address.builder()
+                        .street("Main St")
+                        .number("12345")
+                        .neighborhood("Downtown")
+                        .city("Springfield")
+                        .state("California")
+                        .zipCode(ZipCode.builder().value("12345").build())
+                        .complement("Apt 101")
+                        .build()
         );
 
         customer.archived();
@@ -77,7 +106,18 @@ class CustomerTest {
                 c -> assertThat(c.phone()).isEqualTo(new Phone("000-000-0000")),
                 c -> assertThat(c.document()).isEqualTo(new Document("000-000-0000")),
                 c -> assertThat(c.birthDate()).isNull(),
-                c -> assertThat(c.isPromotionNotificationsAllowed()).isFalse()
+                c -> assertThat(c.isPromotionNotificationsAllowed()).isFalse(),
+                c -> assertThat(c.address()).isEqualTo(
+                        Address.builder()
+                                .street("Main St")
+                                .number("anonymized")
+                                .neighborhood("Downtown")
+                                .city("Springfield")
+                                .state("California")
+                                .zipCode(ZipCode.builder().value("12345").build())
+                                .complement(null)
+                                .build()
+                )
         );
     }
 
@@ -94,7 +134,16 @@ class CustomerTest {
                 true,
                 OffsetDateTime.now(),
                 OffsetDateTime.now(),
-                new LoyaltyPoints(10));
+                new LoyaltyPoints(10),
+                Address.builder()
+                        .street("Main St")
+                        .number("12345")
+                        .neighborhood("Downtown")
+                        .city("Springfield")
+                        .state("California")
+                        .zipCode(ZipCode.builder().value("12345").build())
+                        .complement("Apt 101")
+                        .build());
 
         Assertions.assertThatExceptionOfType(CustomerArchivedException.class)
                 .isThrownBy(customer::archived);
@@ -127,7 +176,16 @@ class CustomerTest {
                 new Phone("478-555-6544"),
                 new Document("255-55-3211"),
                 false,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                Address.builder()
+                        .street("Main St")
+                        .number("12345")
+                        .neighborhood("Downtown")
+                        .city("Springfield")
+                        .state("California")
+                        .zipCode(ZipCode.builder().value("12345").build())
+                        .complement("Apt 101")
+                        .build()
         );
 
         customer.addLoyaltyPoints(new LoyaltyPoints(10));
@@ -147,7 +205,16 @@ class CustomerTest {
                 new Phone("478-555-6544"),
                 new Document("255-55-3211"),
                 false,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                Address.builder()
+                        .street("Main St")
+                        .number("12345")
+                        .neighborhood("Downtown")
+                        .city("Springfield")
+                        .state("California")
+                        .zipCode(ZipCode.builder().value("12345").build())
+                        .complement("Apt 101")
+                        .build()
         );
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
