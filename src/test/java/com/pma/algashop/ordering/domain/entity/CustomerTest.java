@@ -70,9 +70,7 @@ class CustomerTest {
         );
 
         Assertions.assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(() -> {
-                    customer.changeEmail(new Email("invalid-email"));
-                });
+                .isThrownBy(() -> customer.changeEmail(new Email("invalid-email")));
     }
 
     @Test
