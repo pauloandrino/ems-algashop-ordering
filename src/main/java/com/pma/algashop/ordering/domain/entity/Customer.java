@@ -3,7 +3,7 @@ package com.pma.algashop.ordering.domain.entity;
 import com.pma.algashop.ordering.domain.exceptions.CustomerArchivedException;
 import com.pma.algashop.ordering.domain.validator.FieldValidations;
 import com.pma.algashop.ordering.domain.valueobject.Address;
-import com.pma.algashop.ordering.domain.valueobject.CustomerId;
+import com.pma.algashop.ordering.domain.valueobject.id.CustomerId;
 import com.pma.algashop.ordering.domain.valueobject.Document;
 import com.pma.algashop.ordering.domain.valueobject.Email;
 import com.pma.algashop.ordering.domain.valueobject.FullName;
