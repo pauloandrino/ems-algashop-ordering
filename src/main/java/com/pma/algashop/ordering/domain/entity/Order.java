@@ -1,5 +1,6 @@
 package com.pma.algashop.ordering.domain.entity;
 
+import com.pma.algashop.ordering.domain.exceptions.OrderStatusCannotBeChangedException;
 import com.pma.algashop.ordering.domain.valueobject.BillingInfo;
 import com.pma.algashop.ordering.domain.valueobject.Money;
 import com.pma.algashop.ordering.domain.valueobject.ProductName;
@@ -102,6 +103,30 @@ public class Order {
         this.items.add(item);
 
         this.recalculateTotals();
+    }
+
+    public void placeOrder() {
+        this.changeStatus(OrderStatus.PLACED);
+    }
+
+    private void changeStatus(OrderStatus newStatus) {
+        Objects.requireNonNull(newStatus);
+        if (this.status.canNotChangeTo(newStatus)) {
+            throw new OrderStatusCannotBeChangedException(this.id(), this.status(), newStatus);
+        }
+        this.status = newStatus;
+    }
+
+    public boolean isDraft() {
+        return OrderStatus.DRAFT.equals(this.status);
+    }
+
+    public boolean isPlaced() {
+        return OrderStatus.PLACED.equals(this.status);
+    }
+
+    public boolean isReady() {
+        return OrderStatus.READY.equals(this.status);
     }
 
     public OrderId id() {
