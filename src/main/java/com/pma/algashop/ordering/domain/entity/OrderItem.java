@@ -37,10 +37,10 @@ public class OrderItem {
     }
 
     @Builder(builderClassName = "BrandNewOrderItemBuilder", builderMethodName = "brandNew")
-    private static OrderItem brandNewOrderItem(OrderId orderId, ProductId productId,
+    private static OrderItem createBrandNewOrderItem(OrderId orderId, ProductId productId,
                                               ProductName productName, Money price,Quantity quantity) {
 
-        return new OrderItem(new OrderItemId(),
+        OrderItem orderItem = new OrderItem(new OrderItemId(),
                 orderId,
                 productId,
                 productName,
@@ -48,10 +48,10 @@ public class OrderItem {
                 quantity,
                 Money.ZERO);
 
+        orderItem.recalculateTotals();
+
+        return orderItem;
     }
-
-
-
 
     public Money price() {
         return price;
@@ -77,8 +77,12 @@ public class OrderItem {
         return quantity;
     }
 
-    public Money total() {
+    public Money totalAmount() {
         return totalAmount;
+    }
+
+    private void recalculateTotals() {
+        this.setTotalAmount(this.price().multiply(this.quantity()));
     }
 
     private void setId(OrderItemId id) {
